@@ -1,0 +1,4 @@
+clear
+cd src
+make -j2 -f ../Makefile do_upload
+cd ..
