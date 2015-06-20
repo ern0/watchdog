@@ -1,4 +1,10 @@
 clear
 cd src
-make -j2 -f ../Makefile do_upload
+make -j2 -f ../Makefile
+if [ $? -eq 0 ]; then
+	make -j2 -f ../Makefile do_upload
+fi
+if [ $? -eq 0 ]; then
+	miniterm.py /dev/ttyACM0
+fi
 cd ..
