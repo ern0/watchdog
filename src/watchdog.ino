@@ -2,15 +2,11 @@
 # define LEDPIN 13
 # define RELAYPIN 12
 
-# if DEBUG
-# define print(x) Serial.println(x)
-# else
-# define print(x)
-# endif
 
 # include <SPI.h>
 # include <Ethernet.h>
-
+# include "Tick.cpp"
+# include "SerialPrint.cpp"
 
 	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 	char server[] = "www.google.com";
@@ -28,10 +24,8 @@
     pinMode(LEDPIN,OUTPUT);
     pinMode(RELAYPIN,OUTPUT);
     
-		# if DEBUG
-		Serial.begin(9600);
-		# endif
-    
+    setupSerialPrint();
+
 		Ethernet.begin(mac,ip);				
 		print("eth");
 		delay(2000);
