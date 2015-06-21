@@ -11,9 +11,9 @@
 # include "songs.inc"
 
 
-	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-	char server[] = "www.google.com";
-	IPAddress ip(192,168,1,22);
+	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
+	char server[] = "a13";
+	IPAddress ip(192,168,1,222);
 	EthernetClient client;
 	Tick tick;
 	Blink blink;
@@ -26,14 +26,8 @@
     setupTimer();
     blink.play(song1);
 
-		delay(200);	
-		print("hello");    
-		delay(1000);	
-
-		print("eth...");    
 		Ethernet.begin(mac,ip);			
-		print("eth.");
-		delay(3000);	
+		delay(1000);	
 
 		print("connecting");
 		
@@ -57,7 +51,7 @@
 
 	void loop() {
 
-		if (client.available()) {
+		while (client.available()) {
 			char c = client.read();
 			print(c);
 			return;

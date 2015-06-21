@@ -3,7 +3,6 @@
 
 	void setupTimer() {
 	
-return;
 		cli();
   
 		//set timer2 interrupt at 1000Hz (1000.00)
@@ -23,7 +22,6 @@ return;
 
 	int irqdiv = 0;
 
-/*
 	ISR(TIMER2_COMPA_vect) {
 	
 		irqdiv++;
@@ -32,5 +30,3 @@ return;
 		
 		interrupt();
 	}
-
-*/
