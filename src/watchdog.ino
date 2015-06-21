@@ -1,6 +1,6 @@
 # define DEBUG (1)
-# define LEDPIN 13
-# define RELAYPIN 12
+# define LEDPIN 8
+# define RELAYPIN 0
 
 # include <SPI.h>
 # include <Ethernet.h>
@@ -13,23 +13,27 @@
 
 	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 	char server[] = "www.google.com";
-	IPAddress ip(192,168,1,177);
+	IPAddress ip(192,168,1,22);
 	EthernetClient client;
 	Tick tick;
 	Blink blink;
 
 	void setup() {
 
+    setupSerialPrint();
     pinMode(LEDPIN,OUTPUT);
     pinMode(RELAYPIN,OUTPUT);
-
     setupTimer();
     blink.play(song1);
-    setupSerialPrint();
 
-		print("eth...");
-    
-		Ethernet.begin(mac,ip);				
+		delay(200);	
+		print("hello");    
+		delay(1000);	
+
+		print("eth...");    
+		Ethernet.begin(mac,ip);			
+		print("eth.");
+		delay(3000);	
 
 		print("connecting");
 		
@@ -53,21 +57,18 @@
 
 	void loop() {
 
-		return;
-		
 		if (client.available()) {
 			char c = client.read();
 			print(c);
+			return;
 		}
 
-		/*
 		if (!client.connected()) {
 			Serial.println();
 			Serial.println("--");
 			client.stop();
+			while(true);
 		}
 
-    while(true);
-    */
 	
 	} // loop()

@@ -1,3 +1,4 @@
+#!/usr/bin/python2
 def OCR(freq, prescaler):
 	return (16000000 / (prescaler * freq)) - 1
 

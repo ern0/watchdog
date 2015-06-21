@@ -2,24 +2,35 @@
 
 
 	void setupTimer() {
-
+	
+return;
 		cli();
   
-		//set timer0 interrupt at 100Hz (100.00)
-		TCCR0A = 0;
-		TCCR0B = 0;
-		TCNT0 = 0;
-  
-		OCR0A = 155;
-		TCCR0A |= (1 << WGM01);
-		TCCR0B |= (1 << CS02) | (1 << CS00);
-		TIMSK0 |= (1 << OCIE0A);
+		//set timer2 interrupt at 1000Hz (1000.00)
+		TCCR2A = 0;
+		TCCR2B = 0;
+		TCNT2 = 0;
 		
+		OCR2A = 249;
+		TCCR2A |= (1 << WGM21);
+		TCCR2B |= (1 << CS22);
+		TIMSK2 |= (1 << OCIE2A);
+			
 		sei();
 
 	} // setupTimer()
 
 
-	ISR(TIMER0_COMPA_vect){
+	int irqdiv = 0;
+
+/*
+	ISR(TIMER2_COMPA_vect) {
+	
+		irqdiv++;
+		if (irqdiv < 15) return;
+		irqdiv = 0;
+		
 		interrupt();
 	}
+
+*/
