@@ -2,22 +2,21 @@
 # define LEDPIN 13
 # define RELAYPIN 12
 
-
 # include <SPI.h>
 # include <Ethernet.h>
-# include "Tick.cpp"
-# include "SerialPrint.cpp"
+# include "app/SerialPrint.cpp"
+# include "app/TimerInterrupt.cpp"
+# include "app/Tick.cpp"
+# include "app/Blink.cpp"
+
 
 	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 	char server[] = "www.google.com";
 	IPAddress ip(192,168,1,177);
 	EthernetClient client;
+	Tick tick;
+	Blink blink;
 	
-	enum {
-		ETH_CONNECT,
-		HTTP_CONNECT
-	} todo;
-
 
 	void setup() {
 
@@ -25,6 +24,7 @@
     pinMode(RELAYPIN,OUTPUT);
     
     setupSerialPrint();
+    setupTimer();
 
 		Ethernet.begin(mac,ip);				
 		print("eth");
@@ -43,6 +43,11 @@
 		} // else conn		
     
 	} // setup()
+	
+	
+	void interrupt() {
+		blink.tick();
+	} // interrupt()
 
 
 	void loop() {

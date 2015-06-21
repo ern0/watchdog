@@ -8,9 +8,11 @@ AVR_TOOLS_DIR     = /usr
 AVRDDUDE          = /usr/bin/avrdude
 CFLAGS_STD        = -std=gnu11
 CXXFLAGS_STD      = -std=gnu++11
-CXXFLAGS         += -pedantic -Wall -Wextra
+#CXXFLAGS         += -pedantic -Wall -Wextra
+CXXFLAGS         += -Wall -Wextra
 MONITOR_PORT      = /dev/ttyACM0
 CURRENT_DIR       = $(shell basename $(CURDIR))
-OBJDIR            = /tmp/build/$(BOARD_TAG)/$(CURRENT_DIR)
+OBJDIR            = /tmp/watchdog/$(BOARD_TAG)/$(CURRENT_DIR)
 
 include $(ARDMK_DIR)/Arduino.mk
+
