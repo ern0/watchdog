@@ -13,7 +13,7 @@
 	
 		Blink blink;
 		
-		const static unsigned char song[] = { 
+		static unsigned char song[] = { 
 			1,1,
 			0 
 		};
