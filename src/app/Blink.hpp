@@ -5,20 +5,19 @@
 class Blink {
 
 	private:
-		const unsigned char* defaultSong;
+		unsigned char* defaultSong;
 
 	protected:
-		const unsigned char* song;
-		int noteIndex;
-		int noteCounter;
-		int noteValue;
+		unsigned char* song;
+		int index;
+		int counter;
+		int value;
 		
 	public:
 		Blink(); // ctor
 		void init();
 		void reset();
-		void play(const unsigned char* song);
-		void playNote();
+		void play(unsigned char* song);
 		void tick();
 		
 }; // class Tick

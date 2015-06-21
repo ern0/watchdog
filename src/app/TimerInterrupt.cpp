@@ -3,23 +3,23 @@
 
 	void setupTimer() {
 
-	  cli();
-	  
-		// set timer1 interrupt at 50Hz (50.00)
-	  TCCR1A = 0;
-	  TCCR1B = 0;
-	  TCNT1 = 0;
-	  
-	  OCR1A = 39999;
-	  TCCR1B |= (1 << WGM12);
-	  TCCR1B |= (1 << CS11);
-	  TIMSK1 |= (1 << OCIE1A);
-	
-	  sei();
+		cli();
+  
+		//set timer0 interrupt at 100Hz (100.00)
+		TCCR0A = 0;
+		TCCR0B = 0;
+		TCNT0 = 0;
+  
+		OCR0A = 155;
+		TCCR0A |= (1 << WGM01);
+		TCCR0B |= (1 << CS02) | (1 << CS00);
+		TIMSK0 |= (1 << OCIE0A);
+		
+		sei();
 
 	} // setupTimer()
 
 
-	ISR(TIMER1_COMPA_vect) {
+	ISR(TIMER0_COMPA_vect){
 		interrupt();
 	}

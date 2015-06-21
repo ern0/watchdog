@@ -8,6 +8,7 @@
 # include "app/TimerInterrupt.cpp"
 # include "app/Tick.cpp"
 # include "app/Blink.cpp"
+# include "songs.inc"
 
 
 	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -16,19 +17,19 @@
 	EthernetClient client;
 	Tick tick;
 	Blink blink;
-	
 
 	void setup() {
 
     pinMode(LEDPIN,OUTPUT);
     pinMode(RELAYPIN,OUTPUT);
-    
-    setupSerialPrint();
-    setupTimer();
 
+    setupTimer();
+    blink.play(song1);
+    setupSerialPrint();
+
+		print("eth...");
+    
 		Ethernet.begin(mac,ip);				
-		print("eth");
-		delay(2000);
 
 		print("connecting");
 		
@@ -45,13 +46,15 @@
 	} // setup()
 	
 	
-	void interrupt() {
+	void interrupt() {				
 		blink.tick();
 	} // interrupt()
 
 
 	void loop() {
 
+		return;
+		
 		if (client.available()) {
 			char c = client.read();
 			print(c);

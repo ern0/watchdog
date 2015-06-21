@@ -13,7 +13,10 @@
 	
 		Blink blink;
 		
-		const static unsigned char song[] = { 1,3,1,2,0 };
+		const static unsigned char song[] = { 
+			1,1,
+			0 
+		};
 		blink.play(song);
 		
 		for (int frame = 0; frame < 30; frame++) {

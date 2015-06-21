@@ -1,7 +1,7 @@
 # include "Blink.hpp"
 
 
-	static const unsigned char defaultSong[] = { 50,50,0 };
+	static unsigned char defaultSong[] = { 50,50,0 };
 		
 		
 	Blink::Blink() {
@@ -14,36 +14,32 @@
 	} // init()
 
 	
-	void Blink::play(const unsigned char* psong) {
+	void Blink::play(unsigned char* psong) {
 		song = psong;
 		reset();
 	} // play()
 	
 	
 	void Blink::reset() {
-		noteIndex = 0;
-		noteCounter = 0;
-		noteValue = 0;		
+		index = 0;
+		counter = song[index] - 1;
+		value = 0;		
 	} // reset()
 	
 	
 	void Blink::tick() {
-
-		if (noteCounter > 0) {
-			--noteCounter;								
+	
+		if (counter > 0) {
+			--counter;								
 			return;
 		}
-		
-		digitalWrite(LEDPIN,noteValue);
-		noteValue = 1 - noteValue;
-		
-		noteCounter = song[noteIndex] - 1;
-		if (noteCounter < 0) {
-			reset();
-			tick();
-		}	else {
-			noteIndex++;
-		}
+
+		counter = song[index] - 1;
+		if (counter < 0) reset();
+		index++;
+
+		digitalWrite(LEDPIN,value);
+		value = 1 - value;	
 		
 	} // tick()
 	
