@@ -24,15 +24,33 @@
 	Blink blink;
 	Tick tick;
 	Task idleTask;
+	
+	void (*loopJump)(void);
+	void (*timeoutJump)(void);
 
-	enum {
-		CHECK_WEB_CONNECT,
-		CHECK_WEB_FETCH,
-		
-		IDLE_ENTER,
-		IDLE_LOOP
-	} jump;
 
+	void jump(void (*lj)(void),void (*tj)(void)) {
+		loopJump = lj;
+		timeoutJump = tj;
+	} // jump()
+	
+
+	void interrupt() {				
+		tick.inc();
+		blink.tick();
+	} // interrupt()
+
+
+	void loop() {
+		if (loopJump != NULL) loopJump();
+	} // loop();
+	
+	
+	void idleEnter();
+	void idleLoop();
+	void httpConnect();
+	void httpRead();
+	
 
 	void setup() {
 	
@@ -46,7 +64,7 @@
 
     setupTimerInterrupt();
     
-    jump = IDLE_ENTER;
+    jump(&idleEnter,NULL);
     return;
     
 		Ethernet.begin(mac);			
@@ -55,65 +73,52 @@
 	} // setup()
 
 
-	void interrupt() {				
-		tick.inc();
-		blink.tick();
-	} // interrupt()
-
-
-	void loop() {
-		switch (jump) {
-
-
-			case IDLE_ENTER: {
-			
-				idleTask.reset();				
-				print("|");
-				jump = IDLE_LOOP;
+	void idleEnter() {
+		
+		idleTask.reset();				
+		print("|");
+		jump(&idleLoop,NULL);
+		
+	} // idleEnter()
 				
-			} break;
+
+	void idleLoop() {
+	
+		if (idleTask.delay(TICKSEC(1))) {
+			print(".");
+			jump(NULL,NULL);
+		}
+
+	} // idleLoop()
+
+
+	void httpConnect() {
+
+		if (client.connect(server,80)) {
+			client.println("GET / HTTP/1.1");
+			client.println("Host: example.com");
+			client.println("Connection: close");
+			client.println();
+		} // if conn
+		else {
+			print("connection failed");
+		} // else conn		
+
+	} // httpConnect()
+	
+	
+	void httpRead() {
+	
+		while (client.available()) {
+			char c = client.read();
+			print(c);
+			return;
+		}
+
+		if (!client.connected()) {
+			Serial.println();
+			Serial.println("--");
+			client.stop();
+		}	
 			
-
-			case IDLE_LOOP: {
-				
-				if (idleTask.delay(TICKSEC(1))) {
-					print(".");
-				}
-				
-			} break;
-			
-
-			case CHECK_WEB_CONNECT: {
-
-				if (client.connect(server,80)) {
-					client.println("GET / HTTP/1.1");
-					client.println("Host: example.com");
-					client.println("Connection: close");
-					client.println();
-				} // if conn
-				else {
-					print("connection failed");
-				} // else conn		
-
-			} break;
-
-
-			case CHECK_WEB_FETCH: {
-
-				while (client.available()) {
-					char c = client.read();
-					print(c);
-					return;
-				}
-
-				if (!client.connected()) {
-					Serial.println();
-					Serial.println("--");
-					client.stop();
-				}	
-			
-			} break;
-
-
-		} // switch		
-	} // loop()
+	} // httpRead()
