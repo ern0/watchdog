@@ -1,7 +1,7 @@
 # include "TimerInterrupt.hpp"
 
 
-	void setupTimer() {
+	void setupTimerInterrupt() {
 	
 		cli();
   
@@ -25,7 +25,7 @@
 	ISR(TIMER2_COMPA_vect) {
 	
 		irqdiv++;
-		if (irqdiv < 15) return;
+		if (irqdiv < 20) return;
 		irqdiv = 0;
 		
 		interrupt();

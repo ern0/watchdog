@@ -4,6 +4,10 @@
 # define TA 30, 20,
 
 
-static unsigned char song1[] = { SONG_BEGIN
+static unsigned char initSong[] = { 1,
+	1,2,
+SONG_END };
+
+static unsigned char xSong[] = { SONG_BEGIN
 	TA TA TI TI TA
 SONG_END };

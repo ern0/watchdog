@@ -2,6 +2,6 @@
 # define _TimerInterrupt_hpp
 
 void interrupt();
-void setupTimer();
+void setupTimerInterrupt();
 
 # endif
