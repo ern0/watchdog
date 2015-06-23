@@ -8,6 +8,10 @@ static unsigned char initSong[] = { 1,
 	1,2,
 SONG_END };
 
-static unsigned char xSong[] = { SONG_BEGIN
-	TA TA TI TI TA
+static unsigned char deadSong[] = { SONG_BEGIN
+	TI TI TI TI TA
+SONG_END };
+
+static unsigned char httpSong[] = { SONG_BEGIN
+	TA TA TI 
 SONG_END };

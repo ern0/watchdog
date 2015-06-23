@@ -1,4 +1,4 @@
-# if (1)
+# if (0)
 	# define DEBUG (1)
 	# define LEDPIN 8
 	# define RELAYPIN 0
@@ -15,42 +15,36 @@
 # include "app/Tick.cpp"
 # include "app/Task.cpp"
 # include "app/Blink.cpp"
+# include "app/Jump.cpp"
 # include "songs.inc"
 
 
-	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
-	char server[] = "a13";
-	EthernetClient client;
 	Blink blink;
 	Tick tick;
 	Task idleTask;
-	
-	void (*loopJump)(void);
-	void (*timeoutJump)(void);
-
-
-	void jump(void (*lj)(void),void (*tj)(void)) {
-		loopJump = lj;
-		timeoutJump = tj;
-	} // jump()
+	Jump jump;
 	
 
 	void interrupt() {				
 		tick.inc();
 		blink.tick();
+		jump.tick();
 	} // interrupt()
 
 
-	void loop() {
-		if (loopJump != NULL) loopJump();
-	} // loop();
-	
-	
-	void idleEnter();
-	void idleLoop();
+	void networkInit();
+	void networkProc();
+	void networkTimeout();
 	void httpConnect();
 	void httpRead();
-	
+
+	void idleLoop();
+
+	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
+	char server[] = "a13";
+	EthernetClient client;
+	int ethernetOkay = 0;	
+
 
 	void setup() {
 	
@@ -60,24 +54,56 @@
     idleTask.setTick(&tick);
     setupSerialPrint();
     tick.init(90000);
-    blink.play(initSong);
 
     setupTimerInterrupt();
     
-    jump(&idleEnter,NULL);
-    return;
+    jump.next(&networkInit);
     
-		Ethernet.begin(mac);			
-		delay(1000);	
-	
 	} // setup()
+
+
+	void loop() {
+		jump.loop();
+	} // loop();
+
+
+	void networkInit() {
+    
+    jump(&networkProc,&networkTimeout,TICKSEC(2));
+    
+    blink.play(initSong);
+		//ethernetOkay = Ethernet.begin(mac);	
+				
+	} // networtkInit()
+
+
+	void networkProc() {
+		
+		if (ethernetOkay > 0) {
+			blink.play(deadSong);
+			jump.next(NULL);
+			return;
+		}
+		
+		jump.next(httpConnect);
+
+	} // networkProc()
+	
+
+	void networkTimeout() {
+
+		blink.play(deadSong);
+		jump.next(NULL);	
+
+	} // networkTimeout()
+
 
 
 	void idleEnter() {
 		
 		idleTask.reset();				
 		print("|");
-		jump(&idleLoop,NULL);
+		jump.next(&idleLoop);
 		
 	} // idleEnter()
 				
@@ -86,7 +112,7 @@
 	
 		if (idleTask.delay(TICKSEC(1))) {
 			print(".");
-			jump(NULL,NULL);
+			jump.next(NULL);
 		}
 
 	} // idleLoop()
