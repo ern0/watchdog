@@ -64,8 +64,8 @@
 
     setupTimerInterrupt();
  
-jump.next(&ledTest);
-return;    
+//jump.next(&ledTest);
+//return;    
     jump.next(&networkInit);
     
     
@@ -84,8 +84,7 @@ return;
     jump.onTimeout(&networkTimeout,TICKSEC(3));
     blink.play(initSong);
 
-		ethernetOkay = 1;
-		Ethernet.begin(mac,ip);	
+		ethernetOkay = Ethernet.begin(mac);	
 		if (ethernetOkay) {
 			print("eok");
 		} else {
