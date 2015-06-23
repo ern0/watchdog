@@ -4,8 +4,8 @@
 # define TA 30, 20,
 
 
-static unsigned char initSong[] = { 1,
-	1,2,
+static unsigned char initSong[] = { 1, 
+	1,1,
 SONG_END };
 
 static unsigned char deadSong[] = { SONG_BEGIN
@@ -13,5 +13,9 @@ static unsigned char deadSong[] = { SONG_BEGIN
 SONG_END };
 
 static unsigned char httpSong[] = { SONG_BEGIN
-	TA TA TI 
+	TI TI TA 
+SONG_END };
+
+static unsigned char idleSong[] = { SONG_BEGIN
+	TI
 SONG_END };

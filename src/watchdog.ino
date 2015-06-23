@@ -3,8 +3,8 @@
 	# define LEDPIN 8
 	# define RELAYPIN 0
 # else
-	# define DEBUG (0)
-	# define LEDPIN 13
+	# define DEBUG (1)
+	# define LEDPIN 8
 	# define RELAYPIN 12
 # endif
 
@@ -32,6 +32,12 @@
 	} // interrupt()
 
 
+	void loop() {
+		jump.loop();
+	} // loop();
+
+
+	void ledTest();
 	void networkInit();
 	void networkProc();
 	void networkTimeout();
@@ -40,7 +46,8 @@
 
 	void idleLoop();
 
-	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEE };
+	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xE4 };
+	byte ip[] = { 192,168,1,177 };
 	char server[] = "a13";
 	EthernetClient client;
 	int ethernetOkay = 0;	
@@ -56,31 +63,43 @@
     tick.init(90000);
 
     setupTimerInterrupt();
-    
+ 
+jump.next(&ledTest);
+return;    
     jump.next(&networkInit);
+    
     
 	} // setup()
 
 
-	void loop() {
-		jump.loop();
-	} // loop();
+	void ledTest() {
+		blink.play(httpSong);
+	} // ledTest()
 
 
 	void networkInit() {
+		print("nw ini");
     
     jump.next(&networkProc);
-    jump.onTimeout(&networkTimeout,TICKSEC(2));
-    
+    jump.onTimeout(&networkTimeout,TICKSEC(3));
     blink.play(initSong);
-		//ethernetOkay = Ethernet.begin(mac);	
+
+		ethernetOkay = 1;
+		Ethernet.begin(mac,ip);	
+		if (ethernetOkay) {
+			print("eok");
+		} else {
+			print("eer");
+		}
 				
+		while (true);
 	} // networtkInit()
 
 
 	void networkProc() {
+		print("nw proc");
 		
-		if (ethernetOkay > 0) {
+		if (ethernetOkay == 0) {
 			blink.play(deadSong);
 			jump.next(NULL);
 			return;
@@ -99,27 +118,11 @@
 	} // networkTimeout()
 
 
-
-	void idleEnter() {
-		
-		idleTask.reset();				
-		print("|");
-		jump.next(&idleLoop);
-		
-	} // idleEnter()
-				
-
-	void idleLoop() {
-	
-		if (idleTask.delay(TICKSEC(1))) {
-			print(".");
-			jump.next(NULL);
-		}
-
-	} // idleLoop()
-
-
 	void httpConnect() {
+		print("http conn");
+
+		jump.next(NULL);
+		blink.play(httpSong);
 
 		if (client.connect(server,80)) {
 			client.println("GET / HTTP/1.1");
@@ -130,6 +133,8 @@
 		else {
 			print("connection failed");
 		} // else conn		
+
+		blink.play(idleSong);
 
 	} // httpConnect()
 	
@@ -149,3 +154,22 @@
 		}	
 			
 	} // httpRead()
+
+
+	void idleEnter() {
+		
+		idleTask.reset();				
+		print("|");
+		jump.next(&idleLoop);
+		
+	} // idleEnter()
+				
+
+	void idleLoop() {
+	
+		if (idleTask.delay(TICKSEC(1))) {
+			print(".");
+			jump.next(NULL);
+		}
+
+	} // idleLoop()
