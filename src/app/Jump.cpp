@@ -1,17 +1,18 @@
+# include "Jump.hpp"
 
-	Jump() {
+	Jump::Jump() {
 		reset();
 	} // Jump() ctor
 
 	
-	void reset() {
+	void Jump::reset() {
 		loopJump = NULL;
 		timeoutJump = NULL;
-		timeout = -1;	
+		timeoutValue = -1;	
 	} // reset()
 
 
-	void loop() {
+	void Jump::loop() {
 		if (loopJump == NULL) return;
 		
 		void (*lj)(void) = loopJump;
@@ -21,26 +22,26 @@
 	} // loop();
 
 
-	void timeout() {
+	void Jump::tick() {
 		if (timeoutJump == NULL) return;
-		if (timeout < 0) return;
+		if (timeoutValue < 0) return;
 		
-		--timeout;
-		if (timeout > 0) return; 
+		--timeoutValue;
+		if (timeoutValue > 0) return; 
 
 		void (*tj)(void) = timeoutJump;
 		reset();		 
 		tj();
 		
-	} // timeout()
+	} // tick()
                                        
 
-	void next(void (*lj)(void)) {
+	void Jump::next(void (*lj)(void)) {
 		loopJump = lj;
 	} // next()
 	
 
-	void onTimeout(void (*tj)(void),int to) {
+	void Jump::onTimeout(void (*tj)(void),int to) {
 		timeoutJump = tj;
-		timeout = to;
+		timeoutValue = to;
 	} // onTimeout()

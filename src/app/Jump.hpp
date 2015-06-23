@@ -6,7 +6,7 @@ class Jump {
 	protected:
 		void (*loopJump)(void);
 		void (*timeoutJump)(void);
-		int timeout;
+		int timeoutValue;
 
 	protected:
 		void reset();
@@ -16,9 +16,9 @@ class Jump {
 		void jump();
 		void loop();
 		void tick();
-		void next(void (*lj)(void)) {
-		void onTimeout(void (*tj)(void),int to) {
+		void next(void (*lj)(void));
+		void onTimeout(void (*tj)(void),int to);
 		
-}; // class Tick
+}; // class Jump
 
 # endif

@@ -69,7 +69,8 @@
 
 	void networkInit() {
     
-    jump(&networkProc,&networkTimeout,TICKSEC(2));
+    jump.next(&networkProc);
+    jump.onTimeout(&networkTimeout,TICKSEC(2));
     
     blink.play(initSong);
 		//ethernetOkay = Ethernet.begin(mac);	
