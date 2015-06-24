@@ -15,9 +15,9 @@ class Jump {
 		Jump(); // ctor
 		void jump();
 		void loop();
-		void tick();
+		void interrupt();
 		void next(void (*lj)(void));
-		void onTimeout(void (*tj)(void),int to);
+		void timeout(void (*tj)(void),int to);
 		
 }; // class Jump
 

@@ -28,7 +28,7 @@
 	void interrupt() {				
 		tick.inc();
 		blink.tick();
-		jump.tick();
+		jump.interrupt();
 	} // interrupt()
 
 
@@ -64,8 +64,6 @@
 
     setupTimerInterrupt();
  
-//jump.next(&ledTest);
-//return;    
     jump.next(&networkInit);
     
     
@@ -81,7 +79,7 @@
 		print("nw ini");
     
     jump.next(&networkProc);
-    jump.onTimeout(&networkTimeout,TICKSEC(3));
+    jump.timeout(&networkTimeout,TICKSEC(3));
     blink.play(initSong);
 
 		ethernetOkay = Ethernet.begin(mac);	
@@ -89,6 +87,7 @@
 			print("eok");
 		} else {
 			print("eer");
+			Ethernet.begin(mac,ip);
 		}
 				
 		while (true);

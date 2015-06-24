@@ -22,7 +22,7 @@
 	} // loop();
 
 
-	void Jump::tick() {
+	void Jump::interrupt() {
 		if (timeoutJump == NULL) return;
 		if (timeoutValue < 0) return;
 		
@@ -33,7 +33,7 @@
 		reset();		 
 		tj();
 		
-	} // tick()
+	} // interrupt()
                                        
 
 	void Jump::next(void (*lj)(void)) {
@@ -41,7 +41,7 @@
 	} // next()
 	
 
-	void Jump::onTimeout(void (*tj)(void),int to) {
+	void Jump::timeout(void (*tj)(void),int to) {
 		timeoutJump = tj;
 		timeoutValue = to;
-	} // onTimeout()
+	} // timeout()
