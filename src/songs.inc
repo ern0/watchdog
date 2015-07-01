@@ -1,4 +1,4 @@
-# define SONG_ZZZ 60,
+# define SONG_ZZZ 30,
 # define SONG_END 0
 # define TI 5, 25,
 # define TA 30, 20,

@@ -24,6 +24,7 @@
 		index = 0;
 		counter = song[index] - 1;
 		value = 0;		
+		digitalWrite(LEDPIN,0);
 	} // reset()
 	
 	

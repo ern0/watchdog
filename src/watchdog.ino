@@ -109,12 +109,14 @@
 	
 	void test1() {
 		pri("t1");
-		jump.next(&test2,TICKSEC(1));
+		blink.play(ethernetRetrySoonSong);
+		jump.next(&test2,TICKSEC(2));
 	}
 	
 	void test2() {
 		pri("t2");
-		jump.next(&test1,TICKSEC(2));
+		blink.play(httpSong);
+		jump.next(&test1,TICKSEC(5));
 	}
 	
 	
