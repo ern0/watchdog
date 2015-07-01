@@ -1,7 +1,7 @@
 # if DEBUG
-# define print(x) Serial.println(x)
+# define pri(x) Serial.println(x)
 # else
-# define print(x)
+# define pri(x)
 # endif
 
 

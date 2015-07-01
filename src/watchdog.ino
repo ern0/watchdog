@@ -37,20 +37,23 @@
 	} // loop();
 
 
-	void ledTest();
 	void networkInit();
-	void networkProc();
-	void networkTimeout();
+	void networkInitTimeout();
+	void networkInitOkay();
+	
+	void test1();
+	void test2();
+	
 	void httpConnect();
 	void httpRead();
 
-	void idleLoop();
-
 	byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xE4 };
-	byte ip[] = { 192,168,1,177 };
-	char server[] = "a13";
 	EthernetClient client;
-	int ethernetOkay = 0;	
+	bool isEthernetOkay = false;	
+	
+	int httpPass = 0;
+	int httpPort[2];
+	char httpHost[2][80];	
 
 
 	void setup() {
@@ -58,81 +61,77 @@
     pinMode(LEDPIN,OUTPUT);
     pinMode(RELAYPIN,OUTPUT);
     
+    httpPass = 0;
+    strcpy(httpHost[0],"a13");
+    httpPort[0] = 80;
+    strcpy(httpHost[1],"example.com");
+    httpPort[1] = 80;
+    
     idleTask.setTick(&tick);
     setupSerialPrint();
     tick.init(90000);
 
-    setupTimerInterrupt();
- 
-    jump.next(&networkInit);
-    
+    setupTimerInterrupt(); 
+    networkInit();    
     
 	} // setup()
 
 
-	void ledTest() {
-		blink.play(httpSong);
-	} // ledTest()
-
-
 	void networkInit() {
-		print("nw ini");
-    
-    jump.next(&networkProc);
-    jump.timeout(&networkTimeout,TICKSEC(3));
-    blink.play(initSong);
+   
+    blink.play(ethernetInitSong);
+    jump.timeout(&networkInitTimeout,TICKSEC(3));
 
-		ethernetOkay = Ethernet.begin(mac);	
-		if (ethernetOkay) {
-			print("eok");
+		isEthernetOkay = ( Ethernet.begin(mac) != 0 );
+		if (jump.isTimedOut()) return;			
+		
+		if (isEthernetOkay) {
+			jump.next(&networkInitOkay,0);
 		} else {
-			print("eer");
-			Ethernet.begin(mac,ip);
+			blink.play(ethernetRetrySoonSong);
+			jump.next(&networkInit,TICKSEC(5));
 		}
-				
-		while (true);
+		
 	} // networtkInit()
 
 
-	void networkProc() {
-		print("nw proc");
-		
-		if (ethernetOkay == 0) {
-			blink.play(deadSong);
-			jump.next(NULL);
-			return;
-		}
-		
-		jump.next(httpConnect);
+	void networkInitTimeout() {
+		blink.play(ethernetRetrySoonSong);
+		jump.next(&networkInit,0);
+	} // networkInitTimeout()
 
-	} // networkProc()
+
+	void networkInitOkay() {
+		jump.next(&test1,TICKSEC(1));
+	} // networkInitOkay()
+	
+	
+	
+	void test1() {
+		pri("t1");
+		jump.next(&test2,TICKSEC(1));
+	}
+	
+	void test2() {
+		pri("t2");
+		jump.next(&test1,TICKSEC(2));
+	}
+	
 	
 
-	void networkTimeout() {
-
-		blink.play(deadSong);
-		jump.next(NULL);	
-
-	} // networkTimeout()
-
-
 	void httpConnect() {
-		print("http conn");
+		pri("http conn");
 
-		jump.next(NULL);
-		blink.play(httpSong);
-
-		if (client.connect(server,80)) {
+		if (client.connect(httpHost[httpPass],httpPort[httpPass])) {
 			client.println("GET / HTTP/1.1");
-			client.println("Host: example.com");
+			client.print("Host: ");
+			client.println(httpHost[httpPass]);
 			client.println("Connection: close");
 			client.println();
 		} // if conn
 		else {
-			print("connection failed");
+			pri("connection failed");
 		} // else conn		
-
-		blink.play(idleSong);
 
 	} // httpConnect()
 	
@@ -141,7 +140,7 @@
 	
 		while (client.available()) {
 			char c = client.read();
-			print(c);
+			pri(c);
 			return;
 		}
 
@@ -152,22 +151,3 @@
 		}	
 			
 	} // httpRead()
-
-
-	void idleEnter() {
-		
-		idleTask.reset();				
-		print("|");
-		jump.next(&idleLoop);
-		
-	} // idleEnter()
-				
-
-	void idleLoop() {
-	
-		if (idleTask.delay(TICKSEC(1))) {
-			print(".");
-			jump.next(NULL);
-		}
-
-	} // idleLoop()

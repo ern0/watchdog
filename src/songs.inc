@@ -1,21 +1,18 @@
-# define SONG_BEGIN 60,
+# define SONG_ZZZ 60,
 # define SONG_END 0
 # define TI 5, 25,
 # define TA 30, 20,
 
 
-static unsigned char initSong[] = { 1, 
+static unsigned char ethernetInitSong[] = {
 	1,1,
 SONG_END };
 
-static unsigned char deadSong[] = { SONG_BEGIN
-	TI TI TI TI TA
+static unsigned char ethernetRetrySoonSong[] = {
+	5,5,
 SONG_END };
 
-static unsigned char httpSong[] = { SONG_BEGIN
+static unsigned char httpSong[] = { SONG_ZZZ 
 	TI TI TA 
 SONG_END };
 
-static unsigned char idleSong[] = { SONG_BEGIN
-	TI
-SONG_END };
