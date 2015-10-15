@@ -1,21 +1,16 @@
-# if (0)
-	# define DEBUG (1)
-	# define LEDPIN 8
-	# define RELAYPIN 0
-# else
-	# define DEBUG (1)
-	# define LEDPIN 8
-	# define RELAYPIN 12
-# endif
+# define DEBUG (1)
+# define RELAYPIN 9
+# define BUZZPIN 8
+# define LEDPIN 13
 
 # include <SPI.h>
 # include <Ethernet.h>
-# include "app/SerialPrint.cpp"
-# include "app/TimerInterrupt.cpp"
-# include "app/Tick.cpp"
-# include "app/Task.cpp"
-# include "app/Blink.cpp"
-# include "app/Jump.cpp"
+# include "../lib/SerialPrint.cpp"
+# include "../lib/TimerInterrupt.cpp"
+# include "../lib/Tick.cpp"
+# include "../lib/Task.cpp"
+# include "../lib/Blink.cpp"
+# include "../lib/Jump.cpp"
 # include "songs.inc"
 
 
@@ -31,7 +26,7 @@
 		jump.interrupt();
 	} // interrupt()
 
-
+ 
 	void loop() {
 		jump.loop();
 	} // loop();
@@ -69,6 +64,7 @@
     
     idleTask.setTick(&tick);
     setupSerialPrint();
+    pri("hello");
     tick.init(90000);
 
     setupTimerInterrupt(); 
@@ -118,8 +114,7 @@
 		blink.play(httpSong);
 		jump.next(&test1,TICKSEC(5));
 	}
-	
-	
+		
 
 	void httpConnect() {
 		pri("http conn");

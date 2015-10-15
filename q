@@ -1,2 +1,2 @@
-#a
-miniterm.py /dev/ttyACM0
+#!/bin/bash
+miniterm.py /dev/ttyUSB0

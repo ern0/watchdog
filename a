@@ -1,8 +1,4 @@
+#!/bin/bash
 clear
-cd src
-#rm -R /tmp/watchdog
-make -j2 -f ../Makefile
-if [ $? -eq 0 ]; then
-	make -j2 -f ../Makefile do_upload
-fi
-cd ..
+p
+ino upload | cat
