@@ -5,7 +5,7 @@
 class Blink {
 
 	private:
-		unsigned char* defaultSong;
+		static unsigned char defaultSong[];
 
 	protected:
 		unsigned char* song;
@@ -14,7 +14,6 @@ class Blink {
 		int value;
 		
 	public:
-		Blink(); // ctor
 		void init();
 		void reset();
 		void play(unsigned char* song);

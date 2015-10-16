@@ -1,12 +1,7 @@
 # include "Blink.hpp"
 
 
-	static unsigned char defaultSong[] = { 50,50,0 };
-		
-		
-	Blink::Blink() {
-		init();
-	} // Blink() ctor	
+	unsigned char Blink::defaultSong[] = { 50,50,0 };
 
 
 	void Blink::init() {		

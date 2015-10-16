@@ -1,4 +1,4 @@
 #!/bin/bash
 clear
-p
+ino build | cat
 ino upload | cat

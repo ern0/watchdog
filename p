@@ -1,3 +1,3 @@
 #!/bin/bash
 clear
-ino build | cat
+g++ -x c++ -std=c++11 -pthread -g src/watchdog.ino -o watchdog
