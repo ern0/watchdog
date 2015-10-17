@@ -1,27 +1,19 @@
 # ifndef _Task_hpp
 # define _Task_hpp
 
-# include "Tick.hpp"
 
 class Task {
+
+	private:
+		int counter;
+		int delay;
 	
 	protected:
-		Tick* tick;
-		bool first;
-		tick_t last;
-		int miss;
-	
-	protected:
-		bool check(tick_t t,bool delayMode);
+		void setNextDelay(int d);
 		
 	public:
-		Task(); // ctor		
-		void setTick(Tick* t);
-		void reset();
-		int collectMiss();
-		bool every(tick_t t);
-		bool delay(tick_t t);
+		virtual void callNextState() = 0;
+		void tick();
 		
 }; // class Task
-
 # endif

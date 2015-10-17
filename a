@@ -1,4 +1,6 @@
 #!/bin/bash
 clear
-ino build | cat
-ino upload | cat
+ino build
+if [ $? -eq 0 ]; then
+	ino upload | cat
+fi

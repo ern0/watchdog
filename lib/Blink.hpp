@@ -18,8 +18,8 @@ class Blink {
 	public:
 		void init(int pin);
 		void reset();
-		void play(unsigned char* song);
 		void play(unsigned char* song,int repeat);
+		void play(unsigned char* song);
 		void stop();
 		void tick();
 		
