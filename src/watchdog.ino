@@ -4,18 +4,29 @@
 # define LEDPIN 13
 
 # if ( defined(__unix__) || defined(__APPLE__) )
-# define TIMER2 ( 1000 / 50 )   
-# include "../../posixino/src/posixino.cpp"
+
+	# define TIMER2 ( 1000 / 50 )   
+	# include "../../posixino/src/posixino.cpp"
+
+	# include "../lib/TimerInterrupt.cpp"
+	# include "../lib/Blink.cpp"
+	# include "../lib/Task.cpp"
+	# include "NetCheck.cpp"
+	# include "songs.inc"
+
 # else
-# include <SPI.h>
-# include <Ethernet.h>
+
+	# include <SPI.h>
+	# include <Ethernet.h>
+
+	# include "../lib/TimerInterrupt.cpp"
+	# include "../lib/Blink.cpp"
+	# include "../lib/Task.cpp"
+	# include "NetCheck.hpp"
+	# include "songs.inc"
+	
 # endif
 
-# include "../lib/TimerInterrupt.cpp"
-# include "../lib/Blink.cpp"
-# include "../lib/Task.cpp"
-# include "NetCheck.cpp"
-# include "songs.inc"
 
 
 	Blink blink;	

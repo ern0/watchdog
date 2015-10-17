@@ -26,7 +26,6 @@
 	void NetCheck::initEthernet() {
 		//isEthernetOkay = ( Ethernet.begin(mac) != 0 );
 
-printf("init \n");
 		digitalWrite(8,1);
 		setNextState(2,50);
 
@@ -35,7 +34,6 @@ printf("init \n");
 	
 	void NetCheck::doneEthernet() {
 
-printf("done \n");
 		digitalWrite(8,0);
 
 	} // doneEthernet()
