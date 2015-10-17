@@ -5,7 +5,7 @@
 	
 		cli();
   
-		//set timer2 interrupt at 1000Hz (1000.00)
+		//set timer2 interrupt at 1000 Hz
 		TCCR2A = 0;
 		TCCR2B = 0;
 		TCNT2 = 0;
@@ -28,5 +28,6 @@
 		if (irqdiv < 20) return;
 		irqdiv = 0;
 		
-		interrupt();
-	}
+		tick();  // 50 Hz
+		
+	} // ISR()
