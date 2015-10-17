@@ -4,30 +4,18 @@
 # define LEDPIN 13
 
 # if ( defined(__unix__) || defined(__APPLE__) )
-
 	# define TIMER2 ( 1000 / 50 )   
-	# include "../../posixino/src/posixino.cpp"
-
-	# include "../lib/TimerInterrupt.cpp"
-	# include "../lib/Blink.cpp"
-	# include "../lib/Task.cpp"
-	# include "NetCheck.cpp"
-	# include "songs.inc"
-
+	# include "../../../posixino/src/posixino.cpp"
 # else
-
 	# include <SPI.h>
 	# include <Ethernet.h>
-
-	# include "../lib/TimerInterrupt.cpp"
-	# include "../lib/Blink.cpp"
-	# include "../lib/Task.cpp"
-	# include "NetCheck.hpp"
-	# include "songs.inc"
-	
 # endif
 
-
+# include "../lib/TimerInterrupt.cpp"
+# include "../lib/Blink.cpp"
+# include "../lib/Task.cpp"
+# include "../app/NetCheck.cpp"
+# include "../songs.inc"
 
 	Blink blink;	
 	NetCheck netCheck;
@@ -38,6 +26,7 @@
 	void setup() {
 			
 		blink.init(9);			
+		blink.play(httpSong);
 		netCheck.setup();		
 		
 		setupTimerInterrupt();
