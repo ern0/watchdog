@@ -1,18 +1,18 @@
 # include "Task.hpp"
 
 
-	void Task::setNextDelay(int d) {
+	void Task::setNextState(int s,int d) {
+		state = s;
 		counter = d;
-	} // setNextDelay()
+	} // setNextState()
 	
 
 	void Task::tick() {
 		
 		if (counter < 0) return;
 		--counter;
-		if (counter < 0) callNextState();
-		
-		
+		if (counter < 0) callState(state);
+				
 	} // tick()
 	
 	

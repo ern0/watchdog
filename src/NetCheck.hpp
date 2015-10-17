@@ -7,13 +7,11 @@
 class NetCheck : public Task {
 
 	private:
-		void (NetCheck::*nextState)();
 		static unsigned char mac[];
 		EthernetClient client;		
 
 	protected:
-		void setNextState(void (NetCheck::*state)(),int delay);
-		virtual void callNextState();
+		void callState(int state);
 		
 	public:
 		void setup();

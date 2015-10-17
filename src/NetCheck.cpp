@@ -4,19 +4,16 @@
 	static unsigned char mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xE4 };
 
 
-	void NetCheck::setNextState(void (NetCheck::*state)(),int delay) {
-		nextState = state;
-		setNextDelay(delay);
-	} // setNextState()
-	
-
-	void NetCheck::callNextState() {
-		(this->*nextState)();
+	void NetCheck::callState(int state) {
+		switch (state) {
+			case 1: return initEthernet();
+			case 2: return doneEthernet();
+		} // switch
 	} // callNextState()
 	
 
 	void NetCheck::setup() {
-		setNextState(&NetCheck::initEthernet,0);
+		setNextState(1,0);
 		pinMode(8,OUTPUT);
 	} // setup()
 
@@ -27,12 +24,11 @@
 
 
 	void NetCheck::initEthernet() {
-	
 		//isEthernetOkay = ( Ethernet.begin(mac) != 0 );
 
 printf("init \n");
 		digitalWrite(8,1);
-		setNextState(&NetCheck::doneEthernet,50);
+		setNextState(2,50);
 
 	} // initEthernet()
 	

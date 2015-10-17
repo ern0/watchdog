@@ -5,14 +5,15 @@
 class Task {
 
 	private:
+		int state;
 		int counter;
 		int delay;
 	
 	protected:
-		void setNextDelay(int d);
+		void setNextState(int state,int delay);
 		
 	public:
-		virtual void callNextState() = 0;
+		virtual void callState(int state) = 0;
 		void tick();
 		
 }; // class Task
