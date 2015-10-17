@@ -13,36 +13,35 @@
 
 # include "../lib/SerialPrint.cpp"
 # include "../lib/TimerInterrupt.cpp"
+# include "../lib/Blink.cpp"
+# include "songs.inc"
 
-
-	int x;
+	Blink blink1;
+	Blink blink2;
 
 
 	void setup() {
-	
+			
+		blink1.init(9);			
+		blink1.play(httpSong);
+		
+		blink2.init(8);
+		blink2.play(ethernetRetrySoonSong,20);
+		
 		setupTimerInterrupt();
-		pinMode(LEDPIN,OUTPUT);
-		
-		
-		volatile int x = 0;
-		
+	
 	} // setup()
 	
 	
 	void tick() { // 50 Hz
 	
-		x++;
+		blink1.tick();
+		blink2.tick();
 	
 	} // tick()
 	
 	
 	void loop() {
 	  
-		if (x % 10 == 0) {
-			digitalWrite(13,0);
-		} else if (x % 5 == 0) {
-			digitalWrite(13,1);
-		}
-		
 	  
 	} // loop()

@@ -4,37 +4,58 @@
 	unsigned char Blink::defaultSong[] = { 50,50,0 };
 
 
-	void Blink::init() {		
-		play(defaultSong);
+	void Blink::init(int p) {		
+	
+		pin = p;
+		pinMode(pin,OUTPUT);			
+		play(defaultSong,-1);
+		
 	} // init()
 
 	
-	void Blink::play(unsigned char* psong) {
+	void Blink::play(unsigned char* psong,int prepeat) {
 		song = psong;
+		repeat = prepeat;
 		reset();
 	} // play()
+
+
+	void Blink::play(unsigned char* psong) {
+		play(psong,-1);
+	} // play()
+	
+	
+	void Blink::stop() {
+		reset();
+		repeat = 0;
+	} // stop()
 	
 	
 	void Blink::reset() {
 		index = 0;
 		counter = song[index] - 1;
 		value = 0;		
-		digitalWrite(LEDPIN,0);
+		digitalWrite(pin,0);
 	} // reset()
 	
 	
 	void Blink::tick() {
 	
+		if (repeat == 0) return;
+		
 		if (counter > 0) {
 			--counter;								
 			return;
 		}
 
 		counter = song[index] - 1;
-		if (counter < 0) reset();
+		if (counter < 0) {
+			if (repeat > 0) repeat--;
+			reset();
+		}
 		index++;
 
-		digitalWrite(LEDPIN,value);
+		digitalWrite(pin,value);
 		value = 1 - value;	
 		
 	} // tick()

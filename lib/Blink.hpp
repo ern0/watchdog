@@ -9,14 +9,18 @@ class Blink {
 
 	protected:
 		unsigned char* song;
+		int pin;
+		int repeat;
 		int index;
 		int counter;
 		int value;
 		
 	public:
-		void init();
+		void init(int pin);
 		void reset();
 		void play(unsigned char* song);
+		void play(unsigned char* song,int repeat);
+		void stop();
 		void tick();
 		
 }; // class Tick
