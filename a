@@ -1,8 +1,8 @@
 #!/bin/bash
 clear
 cd src
-ino build
-if [ $? -eq 0 ]; then
+ino build | cat
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
 	ino upload | cat
 fi
 cd ..

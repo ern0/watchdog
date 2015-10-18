@@ -4,15 +4,22 @@
 # define TA 30, 20,
 
 
-static unsigned char ethernetInitSong[] = {
+static unsigned char initEthernetSong[] = {
 	1,1,
 SONG_END };
 
-static unsigned char ethernetRetrySoonSong[] = {
-	5,5,
+static unsigned char failEthernetSong[] = { SONG_ZZZ
+	TA TA TA
 SONG_END };
 
-static unsigned char httpSong[] = { SONG_ZZZ 
-	TI TI TA 
+static unsigned char timeoutSong[] = { SONG_ZZZ
+	TA TA TA TA
 SONG_END };
 
+static unsigned char httpSong[] = {
+	2,2,
+SONG_END };
+
+static unsigned char okaySong[] = { SONG_ZZZ
+	TA TA TI TI TA
+SONG_END };

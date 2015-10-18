@@ -4,13 +4,13 @@
 	unsigned char Blink::defaultSong[] = { 50,50,0 };
 
 
-	void Blink::init(int p) {		
+	void Blink::setup(int p) {		
 	
 		pin = p;
 		pinMode(pin,OUTPUT);			
 		play(defaultSong,-1);
 		
-	} // init()
+	} // setup()
 
 	
 	void Blink::play(unsigned char* psong,int prepeat) {

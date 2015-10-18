@@ -16,7 +16,7 @@ class Blink {
 		int value;
 		
 	public:
-		void init(int pin);
+		void setup(int pin);
 		void reset();
 		void play(unsigned char* song,int repeat);
 		void play(unsigned char* song);

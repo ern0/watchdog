@@ -5,16 +5,21 @@
 class Task {
 
 	private:
-		int state;
-		int counter;
-		int delay;
+		volatile int state;
+		volatile int counter;
+		volatile int timeoutCounter;
 	
 	protected:
 		void setNextState(int state,int delay);
+		void setNextState(int state);
+		void setTimeout(int timeout);
 		
 	public:
-		virtual void callState(int state) = 0;
+		Task();
 		void tick();
+		void loop();
+		virtual void callState(int state) = 0;
+		virtual void callTimeout(int state) = 0;
 		
 }; // class Task
 # endif
