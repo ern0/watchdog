@@ -165,6 +165,6 @@
 	void NetCheck::protectedPeriod() {
 	
 		blink.play(protectedSong);
-		setNextState(DELAY,SEC(15));
+		setNextState(DELAY,SEC(45));
 	
 	} // protectedPeriod()
