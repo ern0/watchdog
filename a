@@ -4,5 +4,6 @@ cd src
 ino build | cat
 if [ ${PIPESTATUS[0]} -eq 0 ]; then
 	ino upload | cat
+	#../q
 fi
 cd ..

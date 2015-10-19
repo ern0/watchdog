@@ -1,7 +1,7 @@
 # include "Blink.hpp"
 
 
-	unsigned char Blink::defaultSong[] = { 50,50,0 };
+	unsigned char Blink::defaultSong[] = { 0 };
 
 
 	void Blink::setup(int p) {		
@@ -23,6 +23,11 @@
 	void Blink::play(unsigned char* psong) {
 		play(psong,-1);
 	} // play()
+	
+	
+	void Blink::wait() {
+		while (repeat != 0);
+	} // wait()
 	
 	
 	void Blink::stop() {

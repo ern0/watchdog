@@ -1,0 +1,15 @@
+You should modify a constant in Arduino libraries avoid extreme 
+long DHCP timeout, which causes hanging when no RJ45 is plugged.
+
+In file
+  Ethernet/Dhcp.h
+find
+  int beginWithDHCP(uint8_t *, unsigned long timeout = 60000, 
+    unsigned long responseTimeout = 4000);
+and just change 60000 to, say, 8000:
+  int beginWithDHCP(uint8_t *, unsigned long timeout = 8000, 
+  unsigned long responseTimeout = 4000);
+};
+
+Say thanks to these guys:
+  see: http://forum.arduino.cc/index.php?topic=49401.0

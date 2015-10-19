@@ -25,59 +25,55 @@
 
 
 	void NetCheck::callState(int state) {
+		
+		# if DEBUG
+			Serial.print("state: ");
+			Serial.println(state);
+		# endif
+		
 		switch (state) {
 			case INIT_ETHERNET: return initEthernet();
-			case FAIL_ETHERNET: return failEthernet();
-			case TIMEOUT_ETHERNET: return timeoutEthernet();
+			case RETRY_ETHERNET: return retryEthernet();
 			case HTTP_CONN: return httpConnect();
 			case HTTP_READ: return httpRead();
 			case DELAY: return delay();
 			case ALERT: return alert();
 			case TURN_OFF_ROUTER: return turnOffRouter();
 			case TURN_ON_ROUTER: return turnOnRouter();
+			case PROTECTED_PERIOD: return protectedPeriod();
 		} // switch
 	} // callNextState()
 
 	
-	void NetCheck::callTimeout(int state) {
-		
-		switch (state) {
-			case 1: return timeoutEthernet();
-			
-		} // switch
-		
-	} // callTimeout()
-	
-
 	void NetCheck::initEthernet() {
 
 		blink.play(initEthernetSong);
-		setTimeout(SEC(5));
 		
 		bool isEthernetOkay = ( Ethernet.begin(mac) != 0 );
 
 		if (isEthernetOkay) {
 			setNextState(HTTP_CONN);
 		} else {
-			setNextState(FAIL_ETHERNET);
+			setNextState(RETRY_ETHERNET);
 		}
 
 	} // initEthernet()
 	
 	
-	void NetCheck::failEthernet() {	
-		blink.play(failEthernetSong);	
-	} // failEthernet()
+	void NetCheck::retryEthernet() {	
 
+		blink.play(retryEthernetSong);	
+		buzz.play(helloSong,2);
 
-	void NetCheck::timeoutEthernet() {	
-		blink.play(timeoutSong);	
-	} // timeoutEthernet()
+		setNextState(INIT_ETHERNET,SEC(2));
+
+	} // retryEthernet()
 
 
 	void NetCheck::httpConnect() {
 	
 		blink.play(httpSong);
+		buzz.stop();
 
 		if (client.connect(host,port)) {
 			client.println("GET / HTTP/1.1");
@@ -133,19 +129,42 @@
 	
 	
 	void NetCheck::delay() {
+	
 		blink.play(okaySong);
 		setNextState(HTTP_CONN,SEC(10));
+		
 	} // delay()
 	
 	
 	void NetCheck::alert() {
-		printf("alert \n");
+	
+		blink.play(alertSong,2);
+		buzz.play(alertSong,1);
+		
+		setNextState(TURN_OFF_ROUTER,SEC(1));
+		
 	} // alert()
 	
 	
 	void NetCheck::turnOffRouter() {
+	
+		digitalWrite(pin,HIGH);
+		setNextState(TURN_ON_ROUTER,SEC(2));
+		
 	} // turnOffRouter()
 	
 	
 	void NetCheck::turnOnRouter() {
+
+		digitalWrite(pin,LOW);
+		setNextState(PROTECTED_PERIOD,SEC(1));
+		
 	} // turnOnRouter()
+
+
+	void NetCheck::protectedPeriod() {
+	
+		blink.play(protectedSong);
+		setNextState(DELAY,SEC(15));
+	
+	} // protectedPeriod()

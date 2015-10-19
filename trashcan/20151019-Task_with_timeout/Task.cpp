@@ -10,6 +10,7 @@
 	
 		state = -1;
 		counter = -1;
+		timeoutCounter = -1;
 		
 	} // Task() ctor
 	
@@ -18,6 +19,7 @@
 	
 		state = s;
 		counter = d;
+		timeoutCounter = -1;
 		
 		//prii("set next state",s);
 		
@@ -29,10 +31,24 @@
 	} // setNextState()
 	
 	
+	void Task::setTimeout(int t) {
+		timeoutCounter = t;
+	} // setTimeout()
+	
+
 	void Task::tick() {
 		
 		if (counter > 0) --counter;
 		
+		if (timeoutCounter > 0) {
+			--timeoutCounter;		
+			return;
+		}
+		if (timeoutCounter == 0) {
+			--timeoutCounter;
+			callTimeout(state);
+		}
+				
 	} // tick()
 	
 	

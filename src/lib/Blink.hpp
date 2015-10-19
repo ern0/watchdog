@@ -20,6 +20,7 @@ class Blink {
 		void reset();
 		void play(unsigned char* song,int repeat);
 		void play(unsigned char* song);
+		void wait();
 		void stop();
 		void tick();
 		

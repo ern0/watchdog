@@ -22,9 +22,10 @@ class NetCheck : public Task {
 
 	protected:
 		enum { 
-			INIT_ETHERNET = 11,FAIL_ETHERNET = 12,TIMEOUT_ETHERNET = 13,
+			INIT_ETHERNET = 11,RETRY_ETHERNET = 12,
 			HTTP_CONN = 21,HTTP_READ = 22,DELAY = 23,
-			ALERT = 31,TURN_OFF_ROUTER = 32,TURN_ON_ROUTER = 33
+			ALERT = 31,TURN_OFF_ROUTER = 32,TURN_ON_ROUTER = 33,
+			PROTECTED_PERIOD = 41,
 		};
 		void callState(int state);
 		void callTimeout(int state);
@@ -35,7 +36,7 @@ class NetCheck : public Task {
 		void setHost(const char* host);
 		void setPort(int port);
 		void initEthernet();
-		void failEthernet();
+		void retryEthernet();
 		void timeoutEthernet();
 		void httpConnect();
 		void httpRead();
@@ -43,6 +44,7 @@ class NetCheck : public Task {
 		void alert();
 		void turnOffRouter();
 		void turnOnRouter();
+		void protectedPeriod();
 		
 }; // class NetCheck
 # endif
