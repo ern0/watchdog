@@ -8,7 +8,7 @@
 # endif
 
  
-# include "../lib/Task.hpp"
+# include "../../../blinkino/lib/Task.hpp"
 
 
 class NetCheck : public Task {

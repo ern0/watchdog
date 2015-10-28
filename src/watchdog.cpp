@@ -1,9 +1,9 @@
-# define LEDPIN 7
+# define LEDPIN 6
 # define BUZZPIN 8
-# define RELAYPIN 9
+# define RELAYPIN 7
 
 # if ( defined(__unix__) || defined(__APPLE__) )
-	# define TIMER2 ( 1000 / 50 )   
+	# define TIMER2 ( 1000 / 100 )   
 	# include "../../posixino/src/posixino.cpp"
 	# define DEBUG (1)
 # else
@@ -15,9 +15,9 @@
 
 # include "songs.inc"
 
-# include "lib/TimerInterrupt.cpp"
-# include "lib/Task.cpp"
-# include "lib/Blink.cpp"
+# include "../../blinkino/lib/TimerInterrupt.cpp"
+# include "../../blinkino/lib/Task.cpp"
+# include "../../blinkino/lib/Blink.cpp"
 Blink blink;	
 Blink buzz;
 

@@ -11,6 +11,7 @@
 
 	void NetCheck::setPin(int p) {
 		pin = p;
+		pinMode(pin,OUTPUT);			
 	} // setPin()
 	
 	
@@ -131,7 +132,7 @@
 	void NetCheck::delay() {
 	
 		blink.play(okaySong);
-		setNextState(HTTP_CONN,SEC(10));
+		setNextState(HTTP_CONN,SEC(30));
 		
 	} // delay()
 	
@@ -165,6 +166,6 @@
 	void NetCheck::protectedPeriod() {
 	
 		blink.play(protectedSong);
-		setNextState(DELAY,SEC(45));
+		setNextState(DELAY,SEC(90));
 	
 	} // protectedPeriod()
